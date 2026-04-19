@@ -68,7 +68,10 @@ nav {
   margin-top: 2px;
 }
 @media (max-width: 560px) {
-  .logo-text { display: none; }
+  .logo { gap: 0.45rem; }
+  .logo img { height: 28px; }
+  .logo-name { font-size: 0.78rem; letter-spacing: 0.06em; }
+  .logo-sub { font-size: 0.58rem; letter-spacing: 0.1em; margin-top: 1px; }
 }
 .nav-links { display: flex; gap: 2rem; list-style: none; }
 .nav-links a {
@@ -818,6 +821,14 @@ footer .logo img {
 }
 footer .logo-name { color: var(--cream); }
 footer .logo-text { display: flex !important; }
+footer .logo-tag {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-weight: 400;
+  font-size: clamp(0.78rem, 1.6vw, 0.9rem);
+  color: var(--cream); opacity: 0.8;
+  letter-spacing: 0.03em;
+  margin-top: 2px; text-transform: none;
+}
 footer p { margin: 0.5rem 0; line-height: 1.6; }
 footer a { color: var(--gold); text-decoration: none; word-break: break-word; }
 footer a:hover { color: var(--cream); }
@@ -1413,9 +1424,10 @@ footer a:hover { color: var(--cream); }
     <span class="logo-text">
       <span class="logo-name">David Fugel</span>
       <span class="logo-sub">Life Sherpa</span>
+      <span class="logo-tag">Tap Into Your Joy</span>
     </span>
   </div>
-  <p>Social-Emotional Coach · EFT Specialist · Tap Into Your Joy</p>
+  <p>Social-Emotional Coach · EFT Specialist</p>
   <p><a href="mailto:David@TapIntoYourJoy.com">David@TapIntoYourJoy.com</a> · <a href="tel:2012182800">201.218.2800</a></p>
   <div class="fine">© David Fugel. All content and imagery the property of Tap Into Your Joy.</div>
 </footer>
