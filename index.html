@@ -1401,11 +1401,11 @@ footer a:hover { color: var(--cream); }
       The first conversation is simple — a chance to see whether this approach fits
       what you're looking for. No pressure, no script. Just a step.
     </p>
-    <a href="mailto:David@TapIntoYourJoy.com" class="btn-primary">Start the Conversation</a>
+    <a id="cta-email-btn" href="#" class="btn-primary">Start the Conversation</a>
     <div class="contact-row">
       <div class="contact-item">
         <div class="contact-label">Email</div>
-        <a href="mailto:David@TapIntoYourJoy.com" class="contact-value">David@TapIntoYourJoy.com</a>
+        <a id="contact-email" href="#" class="contact-value"></a>
       </div>
       <div class="contact-item">
         <div class="contact-label">Phone</div>
@@ -1429,8 +1429,11 @@ footer a:hover { color: var(--cream); }
   </div>
   <p class="footer-brand">Tap Into Your Joy</p>
   <p>Social-Emotional Coach · EFT Specialist</p>
-  <p><a href="mailto:David@TapIntoYourJoy.com">David@TapIntoYourJoy.com</a> · <a href="tel:2012182800">201.218.2800</a></p>
+  <p><a id="footer-email" href="#">David@TapIntoYourJoy.com</a> · <a href="tel:2012182800">201.218.2800</a></p>
   <div class="fine">© David Fugel. All content and imagery the property of Tap Into Your Joy.</div>
+  <div style="margin-top:1rem;">
+    <a href="https://uptimeradar.com/#3PPapw" target="_blank"><img src="https://cdn.uptimeradar.com/3PPapw.svg" alt="uptime monitoring" style="display:inline-block;"></a>
+  </div>
 </footer>
 
 <script>
@@ -1458,6 +1461,18 @@ footer a:hover { color: var(--cream); }
       document.body.style.overflow = '';
     }
   });
+
+  // Email assembled at runtime to prevent scrapers/protection systems
+  (function() {
+    var email = 'David' + '@' + 'TapIntoYourJoy.com';
+    var href = 'mailto:' + email;
+    ['cta-email-btn', 'contact-email', 'footer-email'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.href = href;
+      if (id !== 'cta-email-btn') el.textContent = email;
+    });
+  })();
 </script>
 
 </body>
