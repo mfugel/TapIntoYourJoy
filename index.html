@@ -749,6 +749,69 @@ section { padding: var(--pad-y) var(--pad-x); position: relative; }
   color: rgba(245, 239, 230, 0.6);
   letter-spacing: 0.02em; line-height: 1.5;
 }
+
+/* CREDENTIAL TOOLTIPS */
+.cred-info-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 1.5px solid rgba(200, 152, 67, 0.6);
+  color: var(--gold); background: transparent; cursor: pointer;
+  font-size: 13px; font-style: normal; font-family: 'Inter', sans-serif;
+  font-weight: 600; letter-spacing: 0;
+  margin-left: 0.5rem; vertical-align: middle;
+  flex-shrink: 0; transition: all 0.2s;
+  position: relative; top: -1px;
+}
+.cred-info-btn:hover {
+  background: var(--gold); color: var(--ink);
+  border-color: var(--gold);
+}
+.cred-title-row {
+  display: flex; align-items: center; flex-wrap: wrap;
+  margin-bottom: 0.3rem;
+}
+.cred-tooltip-wrap {
+  position: relative; display: inline-flex;
+}
+.cred-tooltip {
+  position: absolute; bottom: calc(100% + 10px); left: 50%;
+  transform: translateX(-50%);
+  background: #0f1720;
+  border: 1px solid rgba(200, 152, 67, 0.3);
+  border-radius: 4px;
+  padding: 0.85rem 1rem;
+  width: clamp(220px, 30vw, 300px);
+  font-family: 'Inter', sans-serif; font-size: 0.82rem;
+  font-style: normal; font-weight: 300; line-height: 1.6;
+  color: rgba(245, 239, 230, 0.88);
+  pointer-events: none; opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  transform: translateX(-50%) translateY(4px);
+  z-index: 200;
+  text-align: left;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+  letter-spacing: 0.01em;
+}
+.cred-tooltip::after {
+  content: '';
+  position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(200, 152, 67, 0.3);
+}
+.cred-tooltip.tip-left { left: 0; transform: translateX(0) translateY(4px); }
+.cred-tooltip.tip-left::after { left: 20px; transform: none; }
+.cred-tooltip.tip-right { left: auto; right: 0; transform: translateX(0) translateY(4px); }
+.cred-tooltip.tip-right::after { left: auto; right: 20px; transform: none; }
+.cred-tooltip-wrap:hover .cred-tooltip,
+.cred-tooltip-wrap.tip-open .cred-tooltip {
+  opacity: 1; transform: translateX(-50%) translateY(0);
+}
+.cred-tooltip-wrap.tip-left:hover .cred-tooltip,
+.cred-tooltip-wrap.tip-left.tip-open .cred-tooltip { transform: translateX(0) translateY(0); }
+.cred-tooltip-wrap.tip-right:hover .cred-tooltip,
+.cred-tooltip-wrap.tip-right.tip-open .cred-tooltip { transform: translateX(0) translateY(0); }
+
 .creds-programs {
   text-align: center; margin-top: clamp(2.5rem, 5vw, 4rem);
   color: rgba(245,239,230,0.6);
@@ -886,7 +949,7 @@ footer a:hover { color: var(--cream); }
 
 <nav>
   <a href="#" class="logo" aria-label="David Fugel, Life Sherpa">
-    <img src="images/life-sherpa-logo.jpg" alt="David Fugel Life Sherpa yin-yang logo — Tap Into Your Joy">
+    <img src="images/life-sherpa-logo.jpg" alt="David Fugel — Tap Into Your Joy">
     <span class="logo-text">
       <span class="logo-name">David Fugel</span>
       <span class="logo-sub">Life Sherpa</span>
@@ -1239,43 +1302,79 @@ footer a:hover { color: var(--cream); }
       <div class="cred-item">
         <div class="cred-num">01</div>
         <div>
-          <div class="cred-title">Applied Positive Psychology</div>
+          <div class="cred-title-row">
+            <div class="cred-title">Applied Positive Psychology</div>
+            <span class="cred-tooltip-wrap tip-left">
+              <button class="cred-info-btn" aria-label="Learn about Applied Positive Psychology">i</button>
+              <div class="cred-tooltip tip-left">A science-based framework that studies what makes life worth living — focusing on strengths, well-being, and flourishing rather than fixing what's wrong. David uses it to help clients identify and build on what already works within them.</div>
+            </span>
+          </div>
           <div class="cred-sub">CAPP Practitioner — Omega / Flourishing Center</div>
         </div>
       </div>
       <div class="cred-item">
         <div class="cred-num">02</div>
         <div>
-          <div class="cred-title">EFT Practitioner</div>
+          <div class="cred-title-row">
+            <div class="cred-title">EFT Practitioner</div>
+            <span class="cred-tooltip-wrap tip-right">
+              <button class="cred-info-btn" aria-label="Learn about EFT">i</button>
+              <div class="cred-tooltip tip-right">Emotional Freedom Techniques (EFT), or "tapping," combines gentle fingertip tapping on acupressure points with focused attention on emotional issues. It's clinically shown to reduce stress, anxiety, and trauma by calming the body's fight-or-flight response.</div>
+            </span>
+          </div>
           <div class="cred-sub">Trained by Dr. Dawson Church, EFT Master</div>
         </div>
       </div>
       <div class="cred-item">
         <div class="cred-num">03</div>
         <div>
-          <div class="cred-title">NLP Certification</div>
+          <div class="cred-title-row">
+            <div class="cred-title">NLP Certification</div>
+            <span class="cred-tooltip-wrap tip-left">
+              <button class="cred-info-btn" aria-label="Learn about NLP">i</button>
+              <div class="cred-tooltip tip-left">Neuro-Linguistic Programming explores the connection between how we think (neuro), how we communicate (linguistic), and our patterns of behavior (programming). NLP tools help reframe limiting beliefs and shift the internal narratives that hold people back.</div>
+            </span>
+          </div>
           <div class="cred-sub">Neuro-Linguistic Programming — Omega Center NYC</div>
         </div>
       </div>
       <div class="cred-item">
         <div class="cred-num">04</div>
         <div>
-          <div class="cred-title">Certified Abundance Coach</div>
+          <div class="cred-title-row">
+            <div class="cred-title">Certified Abundance Coach</div>
+            <span class="cred-tooltip-wrap tip-right">
+              <button class="cred-info-btn" aria-label="Learn about Abundance Coaching">i</button>
+              <div class="cred-tooltip tip-right">Abundance coaching uses EFT tapping to clear the unconscious blocks — fear, scarcity thinking, unworthiness — that prevent people from attracting and receiving what they truly want in life, whether in money, relationships, or fulfillment.</div>
+            </span>
+          </div>
           <div class="cred-sub">Trained by Carol Look, EFT Master</div>
         </div>
       </div>
       <div class="cred-item">
         <div class="cred-num">05</div>
         <div>
-          <div class="cred-title">Matrix Reimprinting Practitioner</div>
+          <div class="cred-title-row">
+            <div class="cred-title">Matrix Reimprinting Practitioner</div>
+            <span class="cred-tooltip-wrap tip-left">
+              <button class="cred-info-btn" aria-label="Learn about Matrix Reimprinting">i</button>
+              <div class="cred-tooltip tip-left">An advanced EFT technique that allows you to revisit and transform formative memories stored in your subconscious "matrix." Rather than just releasing pain, Matrix Reimprinting replaces old traumatic imprints with new, resourceful ones — changing the story at its root.</div>
+            </span>
+          </div>
           <div class="cred-sub">Trained by EFT Master Karin Davidson</div>
         </div>
       </div>
       <div class="cred-item">
         <div class="cred-num">06</div>
         <div>
-          <div class="cred-title">Trauma Relief with EFT</div>
-          <div class="cred-sub">Trained by Sue Beers & Emma Roberts, EFT Masters</div>
+          <div class="cred-title-row">
+            <div class="cred-title">Trauma Relief with EFT</div>
+            <span class="cred-tooltip-wrap tip-right">
+              <button class="cred-info-btn" aria-label="Learn about Trauma Relief with EFT">i</button>
+              <div class="cred-tooltip tip-right">A specialized EFT protocol for processing traumatic experiences safely and gently. Unlike talk therapy, it doesn't require re-living events in detail — tapping on specific acupressure points helps neutralize the emotional charge stored in the body from past trauma.</div>
+            </span>
+          </div>
+          <div class="cred-sub">Trained by Sue Beers &amp; Emma Roberts, EFT Masters</div>
         </div>
       </div>
     </div>
@@ -1491,7 +1590,25 @@ footer a:hover { color: var(--cream); }
     }
   });
 
-  // Email assembled at runtime to prevent scrapers/protection systems
+  // Credential tooltip touch support
+  document.querySelectorAll('.cred-info-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var wrap = btn.closest('.cred-tooltip-wrap');
+      var isOpen = wrap.classList.toggle('tip-open');
+      // Close all others
+      document.querySelectorAll('.cred-tooltip-wrap.tip-open').forEach(function(other) {
+        if (other !== wrap) other.classList.remove('tip-open');
+      });
+    });
+  });
+  document.addEventListener('click', function() {
+    document.querySelectorAll('.cred-tooltip-wrap.tip-open').forEach(function(w) {
+      w.classList.remove('tip-open');
+    });
+  });
+
+
   (function() {
     var email = 'David' + '@' + 'TapIntoYourJoy.com';
     var href = 'mailto:' + email;
