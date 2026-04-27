@@ -2150,6 +2150,32 @@ var $mcj = jQuery.noConflict(true);
     radios.forEach(function (r) { r.addEventListener('change', syncPhoneRequired); });
     syncPhoneRequired(); // run once on load to set initial state
 
+    // Block submission and show inline error if phone is required but empty.
+    // Use capture phase + stopImmediatePropagation so we run before the Formspree library handler.
+    var phoneError = form.querySelector('[data-fs-error="phone"]');
+    function clearPhoneError() {
+      if (phoneError) phoneError.textContent = '';
+      phoneInput.removeAttribute('aria-invalid');
+    }
+    phoneInput.addEventListener('input', clearPhoneError);
+    radios.forEach(function (r) { r.addEventListener('change', clearPhoneError); });
+
+    form.addEventListener('submit', function (e) {
+      var checked = form.querySelector('input[name="preferred_contact"]:checked');
+      var needsPhone = checked && (checked.value === 'Phone' || checked.value === 'Both');
+      var value = (phoneInput.value || '').trim();
+      if (needsPhone && value === '') {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if (phoneError) {
+          phoneError.textContent = 'Please enter your phone number — you selected ' + checked.value + ' as your preferred contact method.';
+        }
+        phoneInput.setAttribute('aria-invalid', 'true');
+        phoneInput.focus();
+        return false;
+      }
+    }, true); // capture phase
+
     // After Formspree successfully submits, hide the form and show the success message.
     if (success) {
       var observer = new MutationObserver(function () {
