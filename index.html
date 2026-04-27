@@ -1923,7 +1923,7 @@ textarea[aria-invalid="true"].newsletter-input {
           </div>
 
           <div class="conversation-field">
-            <label for="cf-phone" class="newsletter-label">Phone <span class="opt">(optional)</span></label>
+            <label for="cf-phone" class="newsletter-label">Phone <span class="opt" id="cf-phone-optional">(optional)</span><span class="req" id="cf-phone-required" hidden>*</span></label>
             <input type="tel" id="cf-phone" name="phone" data-fs-field autocomplete="tel" class="newsletter-input">
             <span class="conversation-error" data-fs-error="phone"></span>
           </div>
@@ -2122,6 +2122,33 @@ var $mcj = jQuery.noConflict(true);
     btn.addEventListener('click', function () {
       (btn.getAttribute('aria-expanded') === 'true' ? close : open)();
     });
+
+    // Phone field becomes required when "Phone" or "Both" is the preferred contact method.
+    var phoneInput = document.getElementById('cf-phone');
+    var phoneOpt = document.getElementById('cf-phone-optional');
+    var phoneReq = document.getElementById('cf-phone-required');
+    var radios = form.querySelectorAll('input[name="preferred_contact"]');
+    function syncPhoneRequired() {
+      var checked = form.querySelector('input[name="preferred_contact"]:checked');
+      var needsPhone = checked && (checked.value === 'Phone' || checked.value === 'Both');
+      if (needsPhone) {
+        phoneInput.setAttribute('required', '');
+        phoneInput.setAttribute('aria-required', 'true');
+        if (phoneOpt) phoneOpt.hidden = true;
+        if (phoneReq) phoneReq.hidden = false;
+      } else {
+        phoneInput.removeAttribute('required');
+        phoneInput.removeAttribute('aria-required');
+        phoneInput.removeAttribute('aria-invalid');
+        if (phoneOpt) phoneOpt.hidden = false;
+        if (phoneReq) phoneReq.hidden = true;
+        // Clear any leftover error message
+        var phoneError = form.querySelector('[data-fs-error="phone"]');
+        if (phoneError) phoneError.textContent = '';
+      }
+    }
+    radios.forEach(function (r) { r.addEventListener('change', syncPhoneRequired); });
+    syncPhoneRequired(); // run once on load to set initial state
 
     // After Formspree successfully submits, hide the form and show the success message.
     if (success) {
