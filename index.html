@@ -2150,7 +2150,24 @@ var $mcj = jQuery.noConflict(true);
     radios.forEach(function (r) { r.addEventListener('change', syncPhoneRequired); });
     syncPhoneRequired(); // run once on load to set initial state
 
-    // Block submission and show inline error if phone is required but empty.
+    // Block submission and show inline errors for required/invalid fields.
+    // Form has novalidate, so we run all field checks here ourselves.
+    // Use capture phase + stopImmediatePropagation so we run before the Formspree library handler.
+    var nameInput  = document.getElementById('cf-name');
+    var emailInput = document.getElementById('cf-email');
+    var nameError  = form.querySelector('[data-fs-error="name"]');
+    var emailError = form.querySelector('[data-fs-error="email"]');
+    function clearNameError() {
+      if (nameError) nameError.textContent = '';
+      nameInput.removeAttribute('aria-invalid');
+    }
+    function clearEmailError() {
+      if (emailError) emailError.textContent = '';
+      emailInput.removeAttribute('aria-invalid');
+    }
+    nameInput.addEventListener('input', clearNameError);
+    emailInput.addEventListener('input', clearEmailError);
+    var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     // Use capture phase + stopImmediatePropagation so we run before the Formspree library handler.
     var phoneError = form.querySelector('[data-fs-error="phone"]');
     function clearPhoneError() {
@@ -2163,7 +2180,39 @@ var $mcj = jQuery.noConflict(true);
     form.addEventListener('submit', function (e) {
       var checked = form.querySelector('input[name="preferred_contact"]:checked');
       var needsPhone = checked && (checked.value === 'Phone' || checked.value === 'Both');
+      var nameVal  = (nameInput.value  || '').trim();
+      var emailVal = (emailInput.value || '').trim();
       var value = (phoneInput.value || '').trim();
+
+      var firstInvalid = null;
+      // Name required
+      if (nameVal === '') {
+        if (nameError) nameError.textContent = 'Please enter your name.';
+        nameInput.setAttribute('aria-invalid', 'true');
+        if (!firstInvalid) firstInvalid = nameInput;
+      }
+      // Email required + valid format
+      if (emailVal === '') {
+        if (emailError) emailError.textContent = 'Please enter your email address.';
+        emailInput.setAttribute('aria-invalid', 'true');
+        if (!firstInvalid) firstInvalid = emailInput;
+      } else if (!emailRe.test(emailVal)) {
+        if (emailError) emailError.textContent = 'Please enter a valid email address.';
+        emailInput.setAttribute('aria-invalid', 'true');
+        if (!firstInvalid) firstInvalid = emailInput;
+      }
+      // Phone required when Phone or Both is the selected contact method
+      if (needsPhone && value === '') {
+        if (phoneError) phoneError.textContent = 'Please enter your phone number — you selected ' + checked.value + ' as your preferred contact method.';
+        phoneInput.setAttribute('aria-invalid', 'true');
+        if (!firstInvalid) firstInvalid = phoneInput;
+      }
+      if (firstInvalid) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        firstInvalid.focus();
+        return false;
+      }
       if (needsPhone && value === '') {
         e.preventDefault();
         e.stopImmediatePropagation();
