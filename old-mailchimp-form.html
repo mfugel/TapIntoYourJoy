@@ -1,0 +1,134 @@
+<!--
+  Mailchimp signup form extracted from index.html
+  Most recent commit that contained the form:
+    Hash:   8290daef6ea0f655ce437ac9e390c5d669ba1f6f
+    Date:   2026-04-23 20:50:26 -0400
+    Subject: Merge branch 'main' of https://github.com/mfugel/TapIntoYourJoy
+
+  The form was originally introduced in:
+    Hash:   3ac9a5c5ae3d298cb38244531fbb9cae3ab7f48f
+    Date:   2026-04-22 16:39:11 -0400
+    Subject: Added Mailchimp Subribe Form
+
+  The form was removed in:
+    Hash:   1672ca4f71e91826bbf1f7d352b6de490cdcac7c
+    Date:   2026-04-26 10:21:55 -0400
+    Subject: Added new testimonial
+
+  Below is the full surrounding <section class="contact-combined">
+  (the form is in the left column), followed by the Mailchimp
+  mc-validate script block that lived at the bottom of the page.
+-->
+
+<section class="contact-combined" id="contact">
+  <div class="contact-combined-inner">
+
+    <!-- Left: Subscribe -->
+    <div class="contact-col contact-col-subscribe">
+      <div class="contact-col-eyebrow">
+        <span class="contact-eyebrow-line"></span>
+        Stay Connected
+        <span class="contact-eyebrow-line"></span>
+      </div>
+      <h2 class="contact-col-heading">
+        Wisdom for the road ahead —<br><em>delivered to you.</em>
+      </h2>
+      <p class="contact-col-sub">
+        Join David's monthly letter: reflections, EFT tapping tools, and gentle
+        guidance to help you move forward with joy and intention.
+      </p>
+      <ul class="contact-perks">
+        <li>Monthly insights from David</li>
+        <li>EFT tapping tips &amp; tools</li>
+        <li>Early access to programs</li>
+        <li>No spam, ever</li>
+      </ul>
+      <div id="mc_embed_signup">
+        <form
+          action="https://tapintoyourjoy.us2.list-manage.com/subscribe/post?u=0a083ccdb00dea0dda2b36e04&amp;id=50a4ec0095&amp;f_id=00c2efe0f0"
+          method="post"
+          id="mc-embedded-subscribe-form"
+          name="mc-embedded-subscribe-form"
+          class="validate"
+          target="_blank"
+          novalidate
+        >
+          <div id="mc_embed_signup_scroll">
+            <div class="contact-form-stack">
+              <div class="contact-form-field">
+                <label for="mce-FNAME" class="newsletter-label">First name</label>
+                <input type="text" name="FNAME" class="required text newsletter-input" id="mce-FNAME" placeholder="Your first name" required>
+              </div>
+              <div class="contact-form-field">
+                <label for="mce-EMAIL" class="newsletter-label">Email address</label>
+                <input type="email" name="EMAIL" class="required email newsletter-input" id="mce-EMAIL" placeholder="Your email address" required>
+              </div>
+              <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="newsletter-btn contact-subscribe-btn" value="Join the journey">
+            </div>
+            <div id="mce-responses">
+              <div class="newsletter-response newsletter-error" id="mce-error-response" style="display:none;"></div>
+              <div class="newsletter-response newsletter-success" id="mce-success-response" style="display:none;"></div>
+            </div>
+            <!-- Required Mailchimp bot-prevention honeypot — do not remove -->
+            <div aria-hidden="true" style="position:absolute; left:-5000px;">
+              <input type="text" name="b_0a083ccdb00dea0dda2b36e04_50a4ec0095" tabindex="-1" value="">
+            </div>
+          </div>
+        </form>
+      </div>
+      <p class="newsletter-fine">Unsubscribe any time. Your information is always kept private.</p>
+    </div>
+
+    <!-- Divider -->
+    <div class="contact-divider" aria-hidden="true">
+      <span class="contact-divider-line"></span>
+      <span class="contact-divider-word">or</span>
+      <span class="contact-divider-line"></span>
+    </div>
+
+    <!-- Right: Email directly -->
+    <div class="contact-col contact-col-reach">
+      <div class="contact-col-eyebrow">
+        <span class="contact-eyebrow-line"></span>
+        Begin
+        <span class="contact-eyebrow-line"></span>
+      </div>
+      <h2 class="contact-col-heading">
+        Move forward with <em>joy and passion.</em>
+      </h2>
+      <p class="contact-col-sub">
+        The first conversation is simple — a chance to see whether this approach fits
+        what you're looking for. No pressure, no script. Just a step.
+      </p>
+      <a id="cta-email-btn" href="#" class="btn-primary contact-cta-btn">Start the Conversation</a>
+      <div class="contact-details">
+        <div class="contact-detail-item">
+          <span class="contact-detail-label">Email</span>
+          <a id="contact-email" href="#" class="contact-detail-value"></a>
+        </div>
+        <div class="contact-detail-item">
+          <span class="contact-detail-label">Phone</span>
+          <a href="tel:2012182800" class="contact-detail-value">201.218.2800</a>
+        </div>
+        <div class="contact-detail-item">
+          <span class="contact-detail-label">Web</span>
+          <a href="http://www.tapintoyourjoy.com" class="contact-detail-value">TapIntoYourJoy.com</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Mailchimp validation scripts (lived at the bottom of <body>) -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+<script type="text/javascript">
+(function($) {
+  window.fnames = new Array();
+  window.ftypes = new Array();
+  fnames[0] = 'EMAIL'; ftypes[0] = 'email';
+  fnames[1] = 'FNAME'; ftypes[1] = 'text';
+}(jQuery));
+var $mcj = jQuery.noConflict(true);
+</script>
