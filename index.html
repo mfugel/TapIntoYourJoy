@@ -1130,6 +1130,109 @@ footer a:hover { color: var(--cream); }
   }
   html { scroll-behavior: auto; }
 }
+/* === Conversation form (Formspree) === */
+.conversation-form-wrapper {
+  margin-top: 1.5rem;
+  overflow: hidden;
+  animation: conversation-slide-down 0.32s ease-out;
+}
+.conversation-form-wrapper[hidden] { display: none; }
+@keyframes conversation-slide-down {
+  from { opacity: 0; transform: translateY(-8px); max-height: 0; }
+  to   { opacity: 1; transform: translateY(0);    max-height: 1200px; }
+}
+.conversation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+}
+.conversation-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.conversation-field .newsletter-label .req { color: var(--gold); margin-left: 0.15rem; }
+.conversation-field .newsletter-label .opt {
+  color: rgba(245, 239, 230, 0.4);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: 0.7rem;
+  margin-left: 0.25rem;
+}
+.conversation-textarea {
+  resize: vertical;
+  min-height: 90px;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+}
+.conversation-radio-group {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.conversation-radios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin-top: 0.4rem;
+}
+.conversation-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+  color: rgba(245, 239, 230, 0.78);
+}
+.conversation-radio input[type="radio"] {
+  accent-color: var(--gold);
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+.conversation-error {
+  color: #e8857a;
+  font-size: 0.78rem;
+  min-height: 1em;
+  line-height: 1.4;
+}
+.conversation-error:empty { display: none; }
+input[aria-invalid="true"].newsletter-input,
+textarea[aria-invalid="true"].newsletter-input {
+  border-color: #e8857a;
+}
+.conversation-form-error {
+  color: #e8857a;
+  font-size: 0.85rem;
+  text-align: center;
+  min-height: 1em;
+  margin-top: 0.25rem;
+}
+.conversation-form-error:empty { display: none; }
+.conversation-success {
+  padding: 1.25rem;
+  border: 1px solid rgba(200, 152, 67, 0.35);
+  border-radius: 2px;
+  background: rgba(200, 152, 67, 0.06);
+  text-align: center;
+  color: var(--cream);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+.conversation-success strong { color: var(--gold); display: block; margin-bottom: 0.35rem; font-weight: 500; }
+.conversation-fine {
+  font-size: 0.72rem;
+  color: rgba(245, 239, 230, 0.4);
+  text-align: center;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+[data-fs-submit-btn][disabled] { opacity: 0.6; cursor: not-allowed; }
+@media (max-width: 860px) {
+  .conversation-radios { flex-direction: column; gap: 0.5rem; }
+}
 </style>
 </head>
 <body>
@@ -1792,7 +1895,75 @@ footer a:hover { color: var(--cream); }
         The first conversation is simple — a chance to see whether this approach fits
         what you're looking for. No pressure, no script. Just a step.
       </p>
-      <a id="cta-email-btn" href="#" class="btn-primary contact-cta-btn">Start the Conversation</a>
+      <!-- Start the Conversation: button toggles the form below -->
+      <button
+        type="button"
+        id="cta-conversation-btn"
+        class="btn-primary contact-cta-btn"
+        aria-expanded="false"
+        aria-controls="conversation-form-wrapper"
+      >Start the Conversation</button>
+
+      <div id="conversation-form-wrapper" class="conversation-form-wrapper" hidden>
+        <div data-fs-success class="conversation-success" hidden>
+          <p><strong>Thank you.</strong> Your message is on its way to David — he'll be in touch shortly.</p>
+        </div>
+
+        <form id="conversation-form" class="conversation-form" novalidate>
+          <div class="conversation-field">
+            <label for="cf-name" class="newsletter-label">Name <span class="req">*</span></label>
+            <input type="text" id="cf-name" name="name" data-fs-field required autocomplete="name" class="newsletter-input">
+            <span class="conversation-error" data-fs-error="name"></span>
+          </div>
+
+          <div class="conversation-field">
+            <label for="cf-email" class="newsletter-label">Email <span class="req">*</span></label>
+            <input type="email" id="cf-email" name="email" data-fs-field required autocomplete="email" class="newsletter-input">
+            <span class="conversation-error" data-fs-error="email"></span>
+          </div>
+
+          <div class="conversation-field">
+            <label for="cf-phone" class="newsletter-label">Phone <span class="opt">(optional)</span></label>
+            <input type="tel" id="cf-phone" name="phone" data-fs-field autocomplete="tel" class="newsletter-input">
+            <span class="conversation-error" data-fs-error="phone"></span>
+          </div>
+
+          <fieldset class="conversation-field conversation-radio-group">
+            <legend class="newsletter-label">Preferred contact method</legend>
+            <div class="conversation-radios">
+              <label class="conversation-radio">
+                <input type="radio" name="preferred_contact" value="Email" checked>
+                <span>Email</span>
+              </label>
+              <label class="conversation-radio">
+                <input type="radio" name="preferred_contact" value="Phone">
+                <span>Phone</span>
+              </label>
+              <label class="conversation-radio">
+                <input type="radio" name="preferred_contact" value="Both">
+                <span>Both</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="conversation-field">
+            <label for="cf-message" class="newsletter-label">Tell me a bit about what brought you here <span class="opt">(optional)</span></label>
+            <textarea id="cf-message" name="message" data-fs-field rows="4" class="newsletter-input conversation-textarea"></textarea>
+            <span class="conversation-error" data-fs-error="message"></span>
+          </div>
+
+          <!-- Honeypot for bot traffic -->
+          <div aria-hidden="true" style="position:absolute; left:-5000px;">
+            <label>Leave this field empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+          </div>
+
+          <button type="submit" class="newsletter-btn" data-fs-submit-btn>Send to David</button>
+
+          <div data-fs-error class="conversation-form-error"></div>
+
+          <p class="conversation-fine">Your message goes directly to David. No mailing list, no newsletter — just a personal reply.</p>
+        </form>
+      </div>
       <div class="contact-details">
         <div class="contact-detail-item">
           <span class="contact-detail-label">Email</span>
@@ -1922,5 +2093,49 @@ footer a:hover { color: var(--cream); }
 var $mcj = jQuery.noConflict(true);
 </script>
 
+<!-- Formspree contact form: toggle + Ajax submit -->
+<script>
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', { formElement: '#conversation-form', formId: 'xyklarvq' });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+<script>
+  (function () {
+    var btn = document.getElementById('cta-conversation-btn');
+    var wrap = document.getElementById('conversation-form-wrapper');
+    var form = document.getElementById('conversation-form');
+    var success = wrap && wrap.querySelector('[data-fs-success]');
+    if (!btn || !wrap || !form) return;
+
+    function open() {
+      wrap.hidden = false;
+      btn.setAttribute('aria-expanded', 'true');
+      btn.textContent = 'Hide the form';
+      var firstInput = form.querySelector('input, textarea');
+      if (firstInput) setTimeout(function () { firstInput.focus(); }, 50);
+    }
+    function close() {
+      wrap.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = 'Start the Conversation';
+    }
+    btn.addEventListener('click', function () {
+      (btn.getAttribute('aria-expanded') === 'true' ? close : open)();
+    });
+
+    // After Formspree successfully submits, hide the form and show the success message.
+    if (success) {
+      var observer = new MutationObserver(function () {
+        if (!success.hasAttribute('hidden')) {
+          form.style.display = 'none';
+          if (typeof gtag === 'function') {
+            gtag('event', 'generate_lead', { method: 'contact_form' });
+          }
+        }
+      });
+      observer.observe(success, { attributes: true, attributeFilter: ['hidden'] });
+    }
+  })();
+</script>
 </body>
 </html>
